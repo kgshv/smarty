@@ -1,5 +1,5 @@
 # smarty
-Smarty is a Google Analytics / Slack bot for the Kyiv Post newsroom. Code is in active alpha stage development, no documentation and just few comments in code, use at your own risk.
+Smarty is a Google Analytics / Slack bot for the [Kyiv Post](http://kyivpost.com) newsroom. Code is in **active alpha stage development**, scarce documentation and just few comments in code, use at your own risk.
 
 ## Set up
 
@@ -15,10 +15,11 @@ Also, you'll need the **Google Analytics for Python and the command-line**, whic
 
 ### Files
 You will need some additional files. These are:
+
 1. `cred.json`
 2. `titles.json`
 
-`titles.json` is a file solemnly for the Kyiv Post, to filter for page titles and not to have the bot scrape, like, the title of the home page every time. You might want to delete it, but make sure to make proper changes to the 'analytics.py' if you do.
+`titles.json` is a file solemnly for [Kyiv Post](http://kyivpost.com), to filter for page titles and not to have the bot scrape, like, the title of the home page every time. You might want to delete it, but make sure to make proper changes to the 'analytics.py' if you do.
 
 ### Accounts
 
