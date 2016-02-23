@@ -52,6 +52,6 @@ Your `.json` file, the one, the Developer Console will generate for you, will ha
 
 Here things are more straightforward. At least IMHO. You will need to create a Slack bot account, set up an API key and add it to `cred.json`. I suggest you start from the Slack bot users [official documentation page](https://api.slack.com/bot-users) (if the link becomes dead for some reason, just google for it).
 
-## Using smarty.
+## Using smarty
 
 I will write this part as soon as I finish the bot itself.
