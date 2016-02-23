@@ -26,9 +26,11 @@ You will need some additional files. These are:
 **Google Analytics**
 
 You will need to get a Google Analytics **service account**, at least that's how I set it up. Google seems to change it's developer's console UI so often, that I really don't see how I can refer you to the correct place there. Start at the [Console](https://console.developers.google.com) home page and go from there to:
+
 1. Create a new project
 2. Enable the Google Analytics API
 3. Generate the service account key (in my case it gave me a json file with credential information).
+
 I deleted everything from that file except for several lines, so that my `cred.json` file has the following structure:
 
 ```javascript
