@@ -19,7 +19,7 @@ You will need some additional files. These are:
 1. `cred.json`
 2. `titles.json`
 
-`titles.json` is a file solemnly for [Kyiv Post](http://kyivpost.com), to filter for page titles and not to have the bot scrape, like, the title of the home page every time. You might want to delete it, but make sure to make proper changes to the 'analytics.py' if you do.
+`titles.json` is a file solemnly for [Kyiv Post](http://kyivpost.com), to filter for page titles and not to have the bot scrape, like, the title of the home page every time. You might want to delete it, but make sure to make proper changes to the `analytics.py` if you do.
 
 ### Accounts
 
