@@ -4,32 +4,39 @@ import urllib2
 import re
 from math import floor
 
-from settings import PROFILE
+from settings import GA_PROFILE
 
 with open('cred.json') as f:
 	cred = json.load(f)
 
 accounts = ga.authenticate(**cred['analytics'])
-profile = accounts[0].webproperties[PROFILE].profile
+profile = accounts[0].webproperties[GA_PROFILE].profile
 
+def get_report(word,top_number,from_to_dates, path):
 
-def get_report_yesterday():
+	query = profile.core.query.total(from_to_dates[0],from_to_dates[1])
 
-	query = profile.core.query.daily(days=-1)
+	if top_number > 20:
+		top_number = 20
+	elif top_number <= 0:
+		top_number = 10
 
-	result = query.dimensions('ga:pagePath').metrics('pageviews', 'unique pageviews', 'ga:avgTimeOnPage', 'bounces', 'entrances', 'exits').sort('pageviews', descending=True)
+	if word == 'top':
+		result = query.dimensions('ga:pagePath').metrics('pageviews', 'unique pageviews', 'ga:avgTimeOnPage', 'ga:bounceRate', 'entrances', 'exits').sort('pageviews', descending=True).limit(top_number)
+	else:
+		result = query.dimensions('ga:pagePath').metrics('pageviews', 'unique pageviews', 'ga:avgTimeOnPage', 'ga:bounceRate', 'entrances', 'exits').sort('pageviews', descending=True).limit(top_number).filter(pagepath=path)
 
 	with open('titles.json') as t:
 		titles = json.load(t)
 
 	response = []
 
-	# for every page in top 10 visited pages:
-	for row in result.report.rows[0:9]:
+	# for every page in top *top_number* visited pages:
+	for row in result.report.rows:
 		url = str(row.page_path)
 		if url in titles:
 			title = titles[url]
-			full_url = 'http://kyivpost.com/'
+			# full_url = 'http://kyivpost.com/'
 		else:
 			full_url = 'http://kyivpost.com' + url
 			page = urllib2.urlopen(full_url).read()
@@ -40,6 +47,7 @@ def get_report_yesterday():
 			try:
 				title = re.search(p,title).group(2)
 			except AttributeError:
+				title = 'some title here'
 				pass
 
 		# calculate proper average time in minutes (given in seconds)
@@ -47,7 +55,7 @@ def get_report_yesterday():
 		seconds = int( floor(row.avg_time_on_page % 60) )
 		avg_time = '{m}:{s}'.format(m=minutes,s=seconds)
 
-		bounce_rate_pct = str( int( round( ((row.bounces*100)/row.entrances) ) ) ) + '%'
+		bounce_rate_pct = str( int( round( row.bounce_rate ) ) ) + '%'
 
 		record = {
 			'title': title,
