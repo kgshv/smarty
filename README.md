@@ -5,9 +5,15 @@ Smarty is a Google Analytics / Slack bot for the [Kyiv Post](http://kyivpost.com
 
 ### Dependencies
 
-I use the **slackbot**, which I found [here](https://github.com/lins05/slackbot). Thumbs up to [lins05](https://github.com/lins05)! The documentation is on the GitHub repo, I just linked. I just ran this:
+I use the **slackbot**, which I found [here](https://github.com/lins05/slackbot). Thumbs up to [lins05](https://github.com/lins05)! The documentation is on the GitHub repo, I just linked. I used the development version of it, since it has more features then the master one. To install it, I pulled directly from the "develop" branch of the Git repo:
+
+`sudo pip install git+git://github.com/lins05/slackbot@develop`
+
+Although, you might want to just do
 
 `sudo pip install slackbot`
+
+That's your call.
 
 Also, you'll need the **Google Analytics for Python and the command-line**, which is [here](https://github.com/debrouwere/google-analytics) (Thanks so much to all the people behind it!). I ran:
 
