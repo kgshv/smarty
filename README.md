@@ -66,9 +66,7 @@ Here things are more straightforward. At least IMHO. You will need to create a S
 
 This part is still in DEV MODE!
 
-* After you run the app, in Slack open a chat with smarty (or mention it with @smarty in a channel). Say 'help' to smarty to get instructions at any time.
-
-
+After you run the app, in Slack open a chat with smarty (or mention it with @smarty in a channel). Say `help` to smarty to get instructions at any time.
 
 ### ​The *report*​ syntax:
 
@@ -81,7 +79,7 @@ The `report` keyword *must* be followed by a query. You can ask for `top` start 
 *This can be one word or date, like `today` or `yesterday` or `2015-01-20` (that is year-month-day).
 *This can be a period, separated by `from` and `to`.
 
-### ​The *top* keyword​ syntax:
+### ​The `top` keyword​ syntax:
 
 *For example*
 
@@ -96,14 +94,17 @@ Will give you a list of top 5 pages, *arranged by the number of page views* (uni
 More examples:
 
 ```report top 20 today```
+
 ```report top 5 from 2015-11-10 to 2016-02-30```
 
 The schematics is always the same: the `report` keyword, followed by `top XX` and a date or a from-to construct. Number after top ​*needs to be below or equal to 20*​.
 
-### ​The *url* keyword​ syntax:
+### ​The `url` keyword​ syntax:
 ​
 Now, if you want to get something else then a list of 10 top articles, you can also say `report url` followed by the full URL of the page you need analyzed, then also followed by the date construct.
 
 ​*For example:*​
+
 ```report url http://kyivpost.com/about-us from 28-11-2014 to today```
+
 Will tell you all stats for the About us page on Kyiv Post for the respective time period. Make sure to use your site url and edit the titles.json, of course.
