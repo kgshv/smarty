@@ -15,9 +15,11 @@ Although, you might want to just do
 
 That's your call.
 
-Also, you'll need the **Google Analytics for Python and the command-line**, which is [here](https://github.com/debrouwere/google-analytics) (Thanks so much to all the people behind it!). I ran:
+Also, you'll need the [**Google Analytics for Python and the command-line**](https://github.com/debrouwere/google-analytics). Thanks so much to all the people behind it, by the way!. I ran:
 
 `pip install googleanalytics`
+
+You might also need PyOpenSSL and PyCrypto modules if you are running this on Linux (I used Ubuntu, so I'm not sure what will happen for Mac users). It has to do with Google oAuth security settings. Just google for installation instructions for your platform.
 
 ### Files
 You will need some additional files. These are:
@@ -26,6 +28,8 @@ You will need some additional files. These are:
 2. `titles.json`
 
 `titles.json` is a file solemnly for [Kyiv Post](http://kyivpost.com), to filter for page titles and not to have the bot scrape, like, the title of the home page every time. You might want to delete it, but make sure to make proper changes to the `analytics.py` if you do.
+
+There is also the `settings.py` file. It contains some variables you might want to re-write. The file structure should be self-explanatory.
 
 ### Accounts
 
@@ -60,4 +64,46 @@ Here things are more straightforward. At least IMHO. You will need to create a S
 
 ## Using smarty
 
-I will write this part as soon as I finish the bot itself.
+This part is still in DEV MODE!
+
+* After you run the app, in Slack open a chat with smarty (or mention it with @smarty in a channel). Say 'help' to smarty to get instructions at any time.
+
+
+
+### ​The *report*​ syntax:
+
+Use the keyword *report* at the beginning of the sentence to ask smarty for stats.
+
+The `report` keyword *must* be followed by a query. You can ask for `top` start or for info on a particular `url`. In case of `top` you should then provide a number and a time period. For `url`, add the actual full url on your site, again, followed by the time period.
+
+*Time period:*
+
+*This can be one word or date, like `today` or `yesterday` or `2015-01-20` (that is year-month-day).
+*This can be a period, separated by `from` and `to`.
+
+### ​The *top* keyword​ syntax:
+
+*For example*
+
+```report top 10 today```
+
+Will give you a list of top 10 pages, *arranged by the number of page views* (unique and non unique), from today.
+
+```report top 5 from 2016-02-20 to yesterday```
+
+Will give you a list of top 5 pages, *arranged by the number of page views* (unique and non unique) from February 20th, 2016 until today.
+
+More examples:
+
+```report top 20 today```
+```report top 5 from 2015-11-10 to 2016-02-30```
+
+The schematics is always the same: the `report` keyword, followed by `top XX` and a date or a from-to construct. Number after top ​*needs to be below or equal to 20*​.
+
+### ​The *url* keyword​ syntax:
+​
+Now, if you want to get something else then a list of 10 top articles, you can also say `report url` followed by the full URL of the page you need analyzed, then also followed by the date construct.
+
+​*For example:*​
+```report url http://kyivpost.com/about-us from 28-11-2014 to today```
+Will tell you all stats for the About us page on Kyiv Post for the respective time period. Make sure to use your site url and edit the titles.json, of course.
