@@ -42,7 +42,7 @@ So, *for example:*\n\
 ```report url '+EXAMPLE_URL+' from 2014-11-28 to today```\n\
 Will tell you all stats for the '+EXAMPLE_URL_TITLE+' page on '+COMPANY_NAME+' for the respective time period.'
 
-		message.reply(reply)
+	message.reply(reply)
 
 def extract_dates(request):
 	def getDates(r):
