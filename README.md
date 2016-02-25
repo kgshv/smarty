@@ -21,6 +21,8 @@ Also, you'll need the [**Google Analytics for Python and the command-line**](htt
 
 You might also need PyOpenSSL and PyCrypto modules if you are running this on Linux (I used Ubuntu, so I'm not sure what will happen for Mac users). It has to do with Google oAuth security settings. Just google for installation instructions for your platform.
 
+>There seem to be issues with the latest (as of now) **oauth2client**. If when you use this code it's still an issue, make sure you have version **oauth2client==1.5.2** installed. More [on this issue](https://github.com/debrouwere/google-analytics/issues/29).
+
 ### Files
 You will need some additional files. These are:
 
