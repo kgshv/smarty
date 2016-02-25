@@ -8,47 +8,14 @@ from analytics import get_report
 
 import sys
 
-def main():
-	bot = Bot()
-	bot.run()
-
-@respond_to("^hi|^hello|^hi there|^what's up", re.IGNORECASE)
-def hi(message):
-	responses = ['Hello','Hello there','Hi there','Sup','Hey']
-	message.reply(random.choice(responses))
-
-
-@respond_to('^help', re.IGNORECASE)
-def help(message):
-	reply = 'Start your request with the *report* keyword.\n\
-The *report* syntax: \n\
-The *top* keyword: \n\
-```report top 7 from 2016-02-01 to today```\n\
-In this example above, `report`, `top`, `from` and `to` are all keywords. They need to be in this particular order.\n\
-This query will give you a list of top 7 pages from Feb 1 2016 until today.\n\
-*The `today` term simply means "up to now"\n\
-*The date is in YEAR-MONTH-DATE format with dashes.\n\
-Number after `top` *needs to be below or equal to 20*.\n\
-*All results are *arranged by the number of page views* (unique and non unique)\n\
-  \n\
-  \n\
-Again, the structure is `report` space `top` space *number* space `from` date (can also be today or yesterday) space `to` space date.\n\
->You can also say things like `report top 10 yesterday` or `report top 20 today` or \
-`report top 5 from 2015-11-10 to 2016-01-01`.\n\
-The *url* keyword: \n\
->Now, if you want to get something else then a list of top pages, \
-you can also say `report url` followed by the full URL of the page on '+COMPANY_NAME+' you need analyzed, plus the date or dates.\n\
-So, *for example:*\n\
-```report url '+EXAMPLE_URL+' from 2014-11-28 to today```\n\
-Will tell you all stats for the '+EXAMPLE_URL_TITLE+' page on '+COMPANY_NAME+' for the respective time period.'
-
-	message.reply(reply)
-
 def extract_dates(request):
 	def getDates(r):
 		keys = r.split(" ")
-		date_to = keys[-1]
-		date_from = keys[-3]
+		if keys[-2] == 'from':
+			date_from = date_to = keys[-1]
+		else:
+			date_to = keys[-1]
+			date_from = keys[-3]
 		return [date_from,date_to]		
 
 	if ' from ' in request:
@@ -88,6 +55,49 @@ def AnalyticsParams(word, request):
 
 	return analytics_request_params
 
+def main():
+	bot = Bot()
+	bot.run()
+
+@respond_to("^hi|^hello|^hi there|^what's up", re.IGNORECASE)
+def hi(message):
+	responses = ['Hello','Hello there','Hi there','Sup','Hey']
+	message.reply(random.choice(responses))
+
+
+@respond_to('^help', re.IGNORECASE)
+def help(message):
+	reply = 'To get info on what bounce rate is, just ask me "what is bounce rate?"\n\
+*`Using reports:`*\n\
+Start your request with the *report* keyword.\n\
+The *report* syntax: \n\
+>The *top* keyword: \n\
+```report top 7 from 2016-02-01 to today```\n\
+In this example above, `report`, `top`, `from` and `to` are all keywords. They need to be in this particular order.\n\
+This query will give you a list of top 7 pages from Feb 1 2016 until today.\n\
+  \n\
+*The `today` term simply means "up to now"\n\
+*The date is in YEAR-MONTH-DATE format with dashes.\n\
+*Number after `top` *needs to be below or equal to 20*.\n\
+*All results are *arranged by the number of page views* (unique and non unique)\n\
+  \n\
+Again, the structure is `report` _space_ `top` _space_ *number* _space_ `from` \
+_date_ (can also be today or yesterday) _space_ `to` _space_ _date_.\n\
+You can also say things like \n\
+```report top 10 yesterday```\n\
+or\n\
+```report top 20 today```\n\
+or\n\
+```report top 5 from 2015-11-10 to 2016-01-01```\n\
+>The *url* keyword: \n\
+Now, if you want to get something else then a list of top pages, \
+you can also say `report url` followed by the full URL of the page on '+COMPANY_NAME+' you need analyzed, plus the date or dates.\n\
+So, *for example:*\n\
+```report url '+EXAMPLE_URL+' from 2014-11-28 to today```\n\
+Will tell you all stats for the *'+EXAMPLE_URL_TITLE+'* page on '+COMPANY_NAME+' for the respective time period.'
+
+	message.reply(reply)
+
 @respond_to('report(.*)', re.IGNORECASE)
 def report_with_details(message, request):
 
@@ -108,14 +118,15 @@ def report_with_details(message, request):
 			for item in analytics_report:
 				raiting += 1
 				attachment = {
-					'fallback': str(raiting),	
-					'text': 'Page: ' + item['title'].decode('utf-8'),
+					"fallback": item['title'].decode('utf-8') + ', pageviews: ' + item['pageviews'],
+					"title": item['title'].decode('utf-8'),
+					"title_link": item['url'],
 					"fields": [
-						{
-						"title": "Rating: ",
-						"value": str(raiting),
-						"short": "true"
-						},
+						# {
+						# "title": "Rating: ",
+						# "value": str(raiting),
+						# "short": "true"
+						# },
 						{
 						"title": "Page views",
 						"value": item['pageviews'],
@@ -136,9 +147,9 @@ def report_with_details(message, request):
 				attachments.append(attachment)
 
 			if ' top ' in request:
-				message.reply('Okay, here are the *top '+str(params['top_number'])+' stories, time span is: '+params['from_to_dates'][0]+' - '+params['from_to_dates'][1]+ '*')
+				message.reply('Okay, here are the *top '+str(params['top_number'])+' pages*, time span is: '+params['from_to_dates'][0]+' - '+params['from_to_dates'][1])
 			else:
-				message.reply('Okay, here are the *stats for the single page you requested, time span is: '+params['from_to_dates'][0]+' - '+params['from_to_dates'][1]+ '*')
+				message.reply('Okay, here are the stats for the *single page* you requested, time span is: '+params['from_to_dates'][0]+' - '+params['from_to_dates'][1])
 			message.send_webapi('', json.dumps(attachments))
 
 		except:
@@ -190,6 +201,25 @@ def report_with_details(message, request):
 # 	message.reply('Okay, here are the *top 10 stories from yesterday*')
 # 	message.send_webapi('', json.dumps(attachments))
 
+@respond_to('bounce rate', re.IGNORECASE)
+def bounce_rate(message):
+
+	text = '>Bounce rate is the percentage of single page visits (or web sessions).\n\
+It is the number of visits in which a person leaves your website from the landing page without browsing any further.\n\
+In simpler terms, an 82 percent bounce rate would mean that only 18 percent of all visitors \
+also visited other pages of the ' + COMPANY_NAME
+	message.reply(text)
+
+@respond_to('I love you', re.IGNORECASE)
+def love(message):
+
+	attachments = [{
+		'fallback': "I love you too!",
+		'title': "I love you too!!! :smiley: :sunflower: :rose:",
+		"image_url": "http://vignette2.wikia.nocookie.net/shipping/images/6/66/Pixel_heart_icon.png/revision/latest?cb=20151011174450",
+		'color': '#D50200'
+	}]
+	message.send_webapi('', json.dumps(attachments))
 
 if __name__ == "__main__":
 	main()

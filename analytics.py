@@ -36,7 +36,7 @@ def get_report(word,top_number,from_to_dates, path):
 		url = str(row.page_path)
 		if url in titles:
 			title = titles[url]
-			# full_url = 'http://kyivpost.com/'
+			full_url = 'http://kyivpost.com/'
 		else:
 			full_url = 'http://kyivpost.com' + url
 			page = urllib2.urlopen(full_url).read()
@@ -59,7 +59,7 @@ def get_report(word,top_number,from_to_dates, path):
 
 		record = {
 			'title': title,
-			# 'url' : full_url,
+			'url' : full_url,
 			'pageviews': str(row.pageviews),
 			'avg_time': avg_time,
 			'bounce_rate': bounce_rate_pct,
