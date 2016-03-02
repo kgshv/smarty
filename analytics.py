@@ -25,6 +25,7 @@ def get_report(word,top_number,from_to_dates, path):
 		result = query.dimensions('ga:pagePath').metrics('pageviews', 'unique pageviews', 'ga:avgTimeOnPage', 'ga:bounceRate', 'entrances', 'exits').sort('pageviews', descending=True).limit(top_number)
 	else:
 		result = query.dimensions('ga:pagePath').metrics('pageviews', 'unique pageviews', 'ga:avgTimeOnPage', 'ga:bounceRate', 'entrances', 'exits').sort('pageviews', descending=True).limit(top_number).filter(pagepath=path)
+		top_5_sources = query.dimensions('ga:source').metrics('ga:hits').sort('ga:hits', descending=True).limit(5).filter(pagepath=path)
 
 	with open('titles.json') as t:
 		titles = json.load(t)
@@ -64,6 +65,19 @@ def get_report(word,top_number,from_to_dates, path):
 			'avg_time': avg_time,
 			'bounce_rate': bounce_rate_pct,
 		}
+
+		# if stats for only one URL were requested, that is if keywords were 'report url ...'
+		if len(result.report.rows) == 1:
+			sources = []
+			# for every source in top 5 sources:
+			for row in top_5_sources.report.rows:
+				data = {
+					'source_name': str(row.source),
+					'hits_from_source': str(row.hits)
+				}
+				sources.append(data)
+
+			record['sources'] = sources
 
 		response.append(record)
 

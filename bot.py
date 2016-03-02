@@ -144,6 +144,19 @@ def report_with_details(message, request):
 						}],
 					# 'color': '#36A64F'
 				}
+
+				# if only stats for one URL requested, also get the top sources data
+				if ' url ' in request:
+					sources_text = ''
+					for source in item['sources']:
+						sources_text += str(source['source_name']) + ', '
+
+					attachment["fields"].append({
+						"title": "Top 5 sources:",
+						"value": sources_text,
+						"short": "true"
+						})
+
 				attachments.append(attachment)
 
 			if ' top ' in request:
@@ -153,9 +166,9 @@ def report_with_details(message, request):
 			message.send_webapi('', json.dumps(attachments))
 
 		except:
-			# e = sys.exc_info()[0]
+			e = sys.exc_info()[0]
 			message.reply('Oops. Looks like something went wrong. Are you sure you formated your query correctly? Type "help" for instructions.')
-			# message.reply(e)
+			message.reply(e)
 
 
 
