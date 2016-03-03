@@ -152,10 +152,11 @@ def report_with_details(message, request):
 						sources_text += str(source['source_name']) + ', '
 
 					attachment["fields"].append({
-						"title": "Top 5 sources:",
+						"title": "Top 5 sources (the smaller time frame, the more accurate this list is):",
 						"value": sources_text,
 						"short": "true"
 						})
+					attachment['color'] = "#2FA44F"
 
 				attachments.append(attachment)
 
