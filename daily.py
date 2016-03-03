@@ -42,4 +42,4 @@ for item in analytics_report:
 	}
 	attachments.append(attachment)
 
-slack.chat.post_message('#smarty-playground','Hey, folks! Here are the *top 10 pages* from *yesterday*:',attachments=json.dumps(attachments),as_user='smarty')
+slack.chat.post_message('#newsroom','Hey, folks! Here are the *top 10 pages* from *yesterday*:',attachments=json.dumps(attachments),as_user='smarty')
