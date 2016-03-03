@@ -113,4 +113,4 @@ Will tell you all stats for the About us page on Kyiv Post for the respective ti
 
 ## Daily / weekly reports
 
-Edit `daily.py` to specity your channel name, and add it to your crontab and have smarty post stats. This part is in dev mode, will be updated soon.
+Edit `daily.py` to specify your channel name, and add it to your crontab and have smarty post stats. This part is in dev mode, will be updated soon.
