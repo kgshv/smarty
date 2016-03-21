@@ -118,12 +118,6 @@ def report_with_details(message, request):
 			for item in analytics_report:
 				raiting += 1
 
-				print ''
-				print ''
-				print "I'm here!"
-				print ''
-				print ''
-
 				attachment = {
 					"fallback": item['title'].decode('utf-8') + ', pageviews: ' + item['pageviews'],
 					"title": item['title'].decode('utf-8'),
@@ -157,12 +151,6 @@ def report_with_details(message, request):
 					# 'color': '#36A64F'
 				}
 
-				print ''
-				print ''
-				print attachment
-				print ''
-				print ''
-
 				# if only stats for one URL requested, also get the top sources data
 				if ' url ' in request:
 					sources_text = ''
@@ -185,9 +173,10 @@ def report_with_details(message, request):
 			message.send_webapi('', json.dumps(attachments))
 
 		except:
-			e = sys.exc_info()[0]
 			message.reply('Oops. Looks like something went wrong. Are you sure you formated your query correctly? Type "help" for instructions.')
-			message.reply(e)
+			# Also log error text
+			# e = sys.exc_info()[0]
+			# message.reply(e)
 
 
 
