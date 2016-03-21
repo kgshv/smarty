@@ -4,6 +4,8 @@ import urllib2
 import re
 from math import floor
 
+import facebook
+
 from settings import GA_PROFILE
 
 with open('cred.json') as f:
@@ -11,6 +13,8 @@ with open('cred.json') as f:
 
 accounts = ga.authenticate(**cred['analytics'])
 profile = accounts[0].webproperties[GA_PROFILE].profile
+
+graph = facebook.GraphAPI(**cred['facebook'])
 
 def get_report(word,top_number,from_to_dates, path):
 
@@ -37,9 +41,9 @@ def get_report(word,top_number,from_to_dates, path):
 		url = str(row.page_path)
 		if url in titles:
 			title = titles[url]
-			full_url = 'http://kyivpost.com/'
+			full_url = 'http://www.kyivpost.com/'
 		else:
-			full_url = 'http://kyivpost.com' + url
+			full_url = 'http://www.kyivpost.com' + url
 			page = urllib2.urlopen(full_url).read()
 			title = str(page).split('<title>')[1].split('</title>')[0]
 			title = title.replace('\n','')
@@ -58,12 +62,17 @@ def get_report(word,top_number,from_to_dates, path):
 
 		bounce_rate_pct = str( int( round( row.bounce_rate ) ) ) + '%'
 
+		# Now get Facebook stats
+		fb_stats = graph.get_object(full_url)
+		fb_shares = fb_stats['share']['share_count']
+
 		record = {
 			'title': title,
 			'url' : full_url,
 			'pageviews': str(row.pageviews),
 			'avg_time': avg_time,
 			'bounce_rate': bounce_rate_pct,
+			'fb_shares': str(fb_shares)
 		}
 
 		# if stats for only one URL were requested, that is if keywords were 'report url ...'

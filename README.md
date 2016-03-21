@@ -110,3 +110,7 @@ Now, if you want to get something else then a list of 10 top articles, you can a
 ```report url http://kyivpost.com/about-us from 28-11-2014 to today```
 
 Will tell you all stats for the About us page on Kyiv Post for the respective time period. Make sure to use your site url and edit the titles.json, of course.
+
+## Daily / weekly reports
+
+Edit `daily.py` to specify your channel name, and add it to your crontab and have smarty post stats. This part is in dev mode, will be updated soon.
