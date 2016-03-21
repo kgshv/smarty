@@ -117,6 +117,13 @@ def report_with_details(message, request):
 			raiting = 0
 			for item in analytics_report:
 				raiting += 1
+
+				print ''
+				print ''
+				print "I'm here!"
+				print ''
+				print ''
+
 				attachment = {
 					"fallback": item['title'].decode('utf-8') + ', pageviews: ' + item['pageviews'],
 					"title": item['title'].decode('utf-8'),
@@ -141,9 +148,20 @@ def report_with_details(message, request):
 						"title": "Bounce rate",
 						"value": item['bounce_rate'],
 						"short": "true"
-						}],
+						},
+						{
+						"title": "Facebook stats (ALL TIME)",
+						"value": "Shares: " + item['fb_shares'],
+						"short": "true"
+						}]
 					# 'color': '#36A64F'
 				}
+
+				print ''
+				print ''
+				print attachment
+				print ''
+				print ''
 
 				# if only stats for one URL requested, also get the top sources data
 				if ' url ' in request:
@@ -152,7 +170,7 @@ def report_with_details(message, request):
 						sources_text += str(source['source_name']) + ', '
 
 					attachment["fields"].append({
-						"title": "Top 5 sources (the smaller time frame, the more accurate this list is):",
+						"title": "Top 5 sources (the smaller request time frame, the more accurate this list is):",
 						"value": sources_text,
 						"short": "true"
 						})
