@@ -37,7 +37,12 @@ for item in analytics_report:
 			"title": "Bounce rate",
 			"value": item['bounce_rate'],
 			"short": "true"
-			}],
+			},
+			{
+			"title": "Facebook stats (ALL TIME)",
+			"value": "Shares: " + item['fb_shares'],
+			"short": "true"
+			}]
 		# 'color': '#36A64F'
 	}
 	attachments.append(attachment)
